@@ -61,3 +61,23 @@ jobs:
         with:
           name: release-ipa
           path: haliyikamaci/build/ios/ipa/*.ipa
+
+      - name: Upload to TestFlight
+        if: success()
+        env:
+          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          API_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          # Create private key directory
+          mkdir -p ~/.appstoreconnect/private_keys
+          
+          # Write private key to file
+          echo "$API_PRIVATE_KEY" > ~/.appstoreconnect/private_keys/AuthKey_$API_KEY_ID.p8
+          
+          # Find the IPA file
+          IPA_PATH=$(find haliyikamaci/build/ios/ipa -name "*.ipa" | head -n 1)
+          echo "Uploading $IPA_PATH..."
+          
+          # Upload using altool
+          xcrun altool --upload-app --type ios --file "$IPA_PATH" --apiKey "$API_KEY_ID" --apiIssuer "$ISSUER_ID"
