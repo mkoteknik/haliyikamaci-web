@@ -1,0 +1,64 @@
+{
+    "description": "Türkiye'nin en büyük halı yıkama platformu. Güvenilir firmalarla halılarınız tertemiz!",
+    "socialMedia": [
+        {
+            "icon": "fab fa-facebook-f",
+            "url": "#"
+        },
+        {
+            "icon": "fab fa-instagram",
+            "url": "#"
+        },
+        {
+            "icon": "fab fa-twitter",
+            "url": "#"
+        }
+    ],
+    "quickLinks": [
+        {
+            "title": "Ana Sayfa",
+            "url": "/"
+        },
+        {
+            "title": "Firmalar",
+            "url": "/firmalar"
+        },
+        {
+            "title": "Kampanyalar",
+            "url": "/kampanyalar"
+        },
+        {
+            "title": "Hakkımızda",
+            "url": "/hakkimizda"
+        },
+        {
+            "title": "İletişim",
+            "url": "/iletisim"
+        }
+    ],
+    "legalLinks": [
+        {
+            "title": "Firma Girişi",
+            "url": "/firma-girisi"
+        },
+        {
+            "title": "Firma Kaydı",
+            "url": "/firma-kayit"
+        },
+        {
+            "title": "Sıkça Sorulanlar",
+            "url": "/sikca-sorulanlar"
+        }
+    ],
+    "contact": {
+        "email": "info@haliyikamacibul.com",
+        "phone": "0850 123 45 67",
+        "address": "İstanbul, Türkiye",
+        "extra": [
+            {
+                "label": "Mersis No",
+                "value": "1234567890123456"
+            }
+        ]
+    }
+}

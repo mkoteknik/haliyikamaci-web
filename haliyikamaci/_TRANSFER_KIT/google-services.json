@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "782891273844",
+    "project_id": "halisepetimbl",
+    "storage_bucket": "halisepetimbl.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782891273844:android:750619b1bfe1939e52cb21",
+        "android_client_info": {
+          "package_name": "com.hali_yikamaci.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZBzUpPtWHnW3mlF38L7YGpiknMB9dZb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

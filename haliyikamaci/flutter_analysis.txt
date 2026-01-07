@@ -1,0 +1,68 @@
+﻿Analyzing haliyikamaci...                                       
+
+  error - Target of URI doesn't exist: 'admin_auth_service.dart' - lib\core\services\seed_demo_data.dart:5:8 - uri_does_not_exist
+warning - The value of the local variable 'initials' isn't used - lib\core\services\seed_demo_data.dart:242:15 - unused_local_variable
+warning - The value of the local variable 'color' isn't used - lib\core\services\seed_demo_data.dart:244:15 - unused_local_variable
+warning - The value of the local variable 'count' isn't used - lib\core\services\seed_demo_data.dart:399:9 - unused_local_variable
+  error - The method 'AdminAuthService' isn't defined for the type 'SeedDemoDataService' - lib\core\services\seed_demo_data.dart:666:30 - undefined_method
+   info - Don't invoke 'print' in production code - lib\core\utils\popup_manager.dart:15:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\utils\popup_manager.dart:29:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\utils\popup_manager.dart:36:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\utils\popup_manager.dart:44:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\utils\popup_manager.dart:119:19 - avoid_print
+   info - The variable name 'isTarget_valid' isn't a lowerCamelCase identifier - lib\data\models\popup_ad_model.dart:51:8 - non_constant_identifier_names
+   info - Don't invoke 'print' in production code - lib\data\repositories\popup_ad_repository.dart:58:7 - avoid_print
+warning - The value of the local variable 'globalDailyLimit' isn't used - lib\data\repositories\popup_ad_repository.dart:74:19 - unused_local_variable
+   info - Don't invoke 'print' in production code - lib\data\repositories\popup_ad_repository.dart:107:7 - avoid_print
+warning - The value of the field '_messagesCollection' isn't used - lib\data\repositories\support_repository.dart:16:23 - unused_field
+   info - Don't invoke 'print' in production code - lib\data\services\turkiye_api_service.dart:21:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\data\services\turkiye_api_service.dart:37:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\data\services\turkiye_api_service.dart:54:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\data\services\turkiye_api_service.dart:70:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\data\services\turkiye_api_service.dart:81:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\data\services\turkiye_api_service.dart:92:7 - avoid_print
+warning - The value of the field '_isLoading' isn't used - lib\presentation\chat\order_chat_screen.dart:27:14 - unused_field
+   info - Statements in an if should be enclosed in a block - lib\presentation\customer\create_order_sheet.dart:243:51 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\presentation\customer\create_order_sheet.dart:244:53 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\presentation\customer\create_order_sheet.dart:245:54 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\presentation\customer\create_order_sheet.dart:246:54 - curly_braces_in_flow_control_structures
+warning - The declaration '_buildFirmListItem' isn't referenced - lib\presentation\customer\customer_firms_tab.dart:251:10 - unused_element
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\customer\customer_notifications_screen.dart:149:42 - use_build_context_synchronously
+warning - The declaration '_buildProfileOption' isn't referenced - lib\presentation\customer\customer_profile_tab.dart:191:10 - unused_element
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\customer\customer_profile_tab.dart:898:28 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\customer\customer_profile_tab.dart:1514:42 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\customer\customer_profile_tab.dart:1520:42 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\customer\nearby_firms_map_screen.dart:357:28 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\firm\firm_campaigns_tab.dart:509:66 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\firm\firm_campaigns_tab.dart:539:45 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\firm\firm_campaigns_tab.dart:542:52 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\firm\firm_campaigns_tab.dart:554:45 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\firm\firm_campaigns_tab.dart:555:52 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\firm\firm_notifications_screen.dart:149:42 - use_build_context_synchronously
+warning - The declaration '_buildDemoOrdersView' isn't referenced - lib\presentation\firm\firm_orders_tab.dart:121:10 - unused_element
+warning - The declaration '_getMockFirm' isn't referenced - lib\presentation\firm\firm_orders_tab.dart:249:13 - unused_element
+warning - The declaration '_openRoute' isn't referenced - lib\presentation\firm\firm_orders_tab.dart:1277:8 - unused_element
+   info - 'Share' is deprecated and shouldn't be used. Use SharePlus instead - lib\presentation\firm\firm_profile_tab.dart:250:25 - deprecated_member_use
+   info - 'shareUri' is deprecated and shouldn't be used. Use SharePlus.instance.share() instead - lib\presentation\firm\firm_profile_tab.dart:250:31 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\firm\firm_profile_tab.dart:392:38 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\firm\firm_profile_tab.dart:1212:30 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\firm\firm_profile_tab.dart:1228:30 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\firm\firm_promo_codes_screen.dart:285:43 - use_build_context_synchronously
+warning - The declaration '_buildUsageRow' isn't referenced - lib\presentation\firm\firm_sms_tab.dart:252:10 - unused_element
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\support\support_chat_screen.dart:186:29 - use_build_context_synchronously
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\presentation\support\support_chat_screen.dart:561:26 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\presentation\support\support_chat_screen.dart:562:26 - deprecated_member_use
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\presentation\support\support_chat_screen.dart:570:24 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\presentation\support\support_chat_screen.dart:571:24 - deprecated_member_use
+warning - The left operand can't be null, so the right operand is never executed - lib\presentation\widgets\firm_card_widget.dart:515:52 - dead_null_aware_expression
+warning - The left operand can't be null, so the right operand is never executed - lib\presentation\widgets\firm_card_widget.dart:542:40 - dead_null_aware_expression
+warning - The left operand can't be null, so the right operand is never executed - lib\presentation\widgets\firm_card_widget.dart:549:70 - dead_null_aware_expression
+warning - The left operand can't be null, so the right operand is never executed - lib\presentation\widgets\firm_card_widget.dart:806:67 - dead_null_aware_expression
+
+flutter : 58 issues found. (ran in 2.1s)
+At line:1 char:1
++ flutter analyze 2>&1 | Out-File -FilePath flutter_analysis.txt -Encod ...
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (58 issues found. (ran in 2.1s):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

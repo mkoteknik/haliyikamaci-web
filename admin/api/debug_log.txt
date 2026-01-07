@@ -1,0 +1,87 @@
+[2025-12-25 03:05:45] Request received. Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:05:46] Google API Response Code: 400
+[2025-12-25 03:05:46] Error: Invalid token. Response: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+. Curl Error: 
+[2025-12-25 03:05:46] Request received. Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:05:47] Google API Response Code: 400
+[2025-12-25 03:05:47] Error: Invalid token. Response: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+. Curl Error: 
+[2025-12-25 03:06:14] Request received. Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:06:14] Google API Response Code: 400
+[2025-12-25 03:06:14] Error: Invalid token. Response: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+. Curl Error: 
+[2025-12-25 03:06:39] Request received. Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:06:39] Google API Response Code: 400
+[2025-12-25 03:06:39] Error: Invalid token. Response: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+. Curl Error: 
+[2025-12-25 03:07:35] Request received. Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:07:36] Google API Response Code: 400
+[2025-12-25 03:07:36] Error: Invalid token. Response: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+. Curl Error: 
+[2025-12-25 03:08:01] Request received. Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:08:01] Google API Response Code: 400
+[2025-12-25 03:08:01] Error: Invalid token. Response: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+. Curl Error: 
+[2025-12-25 03:08:05] Request received. Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:08:06] Google API Response Code: 400
+[2025-12-25 03:08:06] Error: Invalid token. Response: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+. Curl Error: 
+[2025-12-25 03:09:22] Request Method: POST
+[2025-12-25 03:09:22] Headers: Array
+(
+    [Host] => www.haliyikamacibul.com
+    [Content-Length] => 59979
+    [sec-ch-ua-platform] => "Windows"
+    [Authorization] => Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk4OGQ1YTM3OWI3OGJkZjFlNTBhNDA5MTEzZjJiMGM3NWU0NTJlNDciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaGFsaXNlcGV0aW1ibCIsImF1ZCI6ImhhbGlzZXBldGltYmwiLCJhdXRoX3RpbWUiOjE3NjY2MjA1MTAsInVzZXJfaWQiOiJnUFVuMVFBUkVsZUtBNklqaWN4MmhicDRQZnAxIiwic3ViIjoiZ1BVbjFRQVJFbGVLQTZJamljeDJoYnA0UGZwMSIsImlhdCI6MTc2NjYyMDUxMCwiZXhwIjoxNzY2NjI0MTEwLCJlbWFpbCI6Im1rb3Rla25pa0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWtvdGVrbmlrQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.nNW-AadufFmC6O3rkFgiBmt2gNoDBQcKWF1wis4T_K-kF-ae_Y7CyfYdwdCHUJ8OE73xxqoyQqRiZ5hLpKigbdOKdXC1-VFlDAPhR41gTM6A4GP9jmWDP1IV3Fa90uSeG5CMmPmV6l5ON78wWk2Z7bc4pMBE38EB4qMho-FbAtp7Z1gzWjoAqnVbowQh_d2ir-Ux83PppW_yhiFC5M8wAcktkny9DuAAw-OUP4pu9ZZTotJd6WbeqSuVsEieab-G9jci7_UlpTafJV1_WYfeFzidKGb-hwRTUzQBKb_UOjtUJcNMppMhGRv3ptrPtexXlf3z9Wosx5E3aQ7Ry3VVXg
+    [User-Agent] => Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+    [sec-ch-ua] => "Google Chrome";v="143", "Chromium";v="143", "Not A(Brand";v="24"
+    [Content-Type] => multipart/form-data; boundary=----WebKitFormBoundaryj2Q7w9lhjWxbNrya
+    [sec-ch-ua-mobile] => ?0
+    [Accept] => */*
+    [origin] => https://www.haliyikamacibul.com
+    [sec-fetch-site] => same-origin
+    [sec-fetch-mode] => cors
+    [sec-fetch-dest] => empty
+    [Referer] => https://www.haliyikamacibul.com/admin/slider-settings.php
+    [Accept-Encoding] => gzip, deflate, br, zstd
+    [Accept-Language] => tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7
+    [priority] => u=1, i
+    [Cookie] => PHPSESSID=78bafl6mj12ptvgsa018k7p4qg
+)
+
+[2025-12-25 03:09:22] SERVER vars (Authorization): Array
+(
+    [HTTP_AUTHORIZATION] => Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk4OGQ1YTM3OWI3OGJkZjFlNTBhNDA5MTEzZjJiMGM3NWU0NTJlNDciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaGFsaXNlcGV0aW1ibCIsImF1ZCI6ImhhbGlzZXBldGltYmwiLCJhdXRoX3RpbWUiOjE3NjY2MjA1MTAsInVzZXJfaWQiOiJnUFVuMVFBUkVsZUtBNklqaWN4MmhicDRQZnAxIiwic3ViIjoiZ1BVbjFRQVJFbGVLQTZJamljeDJoYnA0UGZwMSIsImlhdCI6MTc2NjYyMDUxMCwiZXhwIjoxNzY2NjI0MTEwLCJlbWFpbCI6Im1rb3Rla25pa0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWtvdGVrbmlrQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.nNW-AadufFmC6O3rkFgiBmt2gNoDBQcKWF1wis4T_K-kF-ae_Y7CyfYdwdCHUJ8OE73xxqoyQqRiZ5hLpKigbdOKdXC1-VFlDAPhR41gTM6A4GP9jmWDP1IV3Fa90uSeG5CMmPmV6l5ON78wWk2Z7bc4pMBE38EB4qMho-FbAtp7Z1gzWjoAqnVbowQh_d2ir-Ux83PppW_yhiFC5M8wAcktkny9DuAAw-OUP4pu9ZZTotJd6WbeqSuVsEieab-G9jci7_UlpTafJV1_WYfeFzidKGb-hwRTUzQBKb_UOjtUJcNMppMhGRv3ptrPtexXlf3z9Wosx5E3aQ7Ry3VVXg
+    [REDIRECT_HTTP_AUTHORIZATION] => Not Set
+)
+
+[2025-12-25 03:09:22] Detected Auth Header: Bearer eyJhbGciOiJSU...
+[2025-12-25 03:09:23] Google API Response Code: 400
+[2025-12-25 03:09:23] Google API Curl Error: 
+[2025-12-25 03:09:23] Google API Response Body: {
+  "error": "invalid_token",
+  "error_description": "Invalid Value"
+}
+
+[2025-12-25 03:09:23] Error: Token validation failed.

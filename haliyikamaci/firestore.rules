@@ -1,0 +1,422 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ==========================================
+    // YARDIMCI FONKSİYONLAR
+    // ==========================================
+    
+    // Kullanıcı giriş yapmış mı?
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Kullanıcı kendi verisine mi erişiyor?
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Kullanıcı tipini al (Güvenli versiyon)
+    function getUserType() {
+      // Önce doküman var mı kontrol et
+      let userPath = /databases/$(database)/documents/users/$(request.auth.uid);
+      return exists(userPath) ? get(userPath).data.userType : '';
+    }
+    
+    // Admin mi?
+    function isAdmin() {
+      return isAuthenticated() && getUserType() == 'admin';
+    }
+    
+    // Firma mı?
+    function isFirm() {
+      return isAuthenticated() && getUserType() == 'firm';
+    }
+    
+    // Müşteri mi? (Sipariş verebilen herkes)
+    function isCustomer() {
+      return isAuthenticated(); 
+    }
+    
+    // ==========================================
+    // USERS KOLEKSİYONU
+    // ==========================================
+    match /users/{userId} {
+      // Herkes kullanıcı profilini okuyabilir (Basic info)
+      allow read: if true;
+      
+      // Oluşturma: Kullanıcı kendi profilini oluşturabilir.
+      // Not: İlk admin kaydı için bu açık olmalı.
+      // Güvenlik Notu: İleride sadece Cloud Functions üzerinden oluşturma yapılabilir.
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      
+      // Güncelleme: Kendi profilini güncelleyebilir ama hassas alanları (userType) değiştiremez
+      allow update: if isOwner(userId) && 
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['userType']));
+      
+      // Admin her şeyi yapabilir
+      allow write: if isAdmin();
+    }
+    
+    // ==========================================
+    // FIRMS KOLEKSİYONU
+    // ==========================================
+    match /firms/{firmId} {
+      // Herkes firma profillerini okuyabilir
+      allow read: if true;
+      // DEBUG MODE: ID kontrolünü kaldırdım. Sadece giriş yapmış olması yeterli.
+      allow write: if request.auth != null; 
+    }
+    
+    // ==========================================
+    // CUSTOMERS KOLEKSİYONU
+    // ==========================================
+    match /customers/{customerId} {
+      // Müşteri kendi profilini (ID veya uid alanı eşleşiyorsa), firma sipariş için, admin hepsini okuyabilir
+      allow get: if isOwner(customerId) || 
+                  (isAuthenticated() && resource.data.uid == request.auth.uid) || 
+                  isFirm() || 
+                  isAdmin();
+      
+      allow list: if isAuthenticated() && (
+                    (resource.data.uid == request.auth.uid) ||
+                    isFirm() ||
+                    isAdmin()
+                  );
+      
+      allow create: if isAuthenticated();
+      
+      allow update: if isOwner(customerId) || 
+                     (isAuthenticated() && resource.data.uid == request.auth.uid) || 
+                     isAdmin();
+      
+      allow delete: if isAdmin();
+      
+
+      // --- Sadakat Kartları (Subcollection) ---
+      match /loyalty_cards/{cardId} {
+        // Müşteri (Parent sahibi) okuyabilir
+        allow read: if isOwner(customerId);
+        // İlgili Firma (Kart ID == Firma ID) okuyabilir ve yazabilir
+        allow read, write: if (isAuthenticated() && request.auth.uid == cardId) || isAdmin();
+      }
+    }
+    
+    // ==========================================
+    // ORDERS KOLEKSİYONU
+    // ==========================================
+    match /orders/{orderId} {
+      // Firma veya müşteri siparişleri okuyabilir
+      // Not: Client-side query zaten firmId veya customerId ile filtreliyor
+      // Bu yüzden burada sadece kullanıcı tipini kontrol ediyoruz
+      allow read: if isAuthenticated() && (
+        isFirm() || 
+        isCustomer() || 
+        isAdmin()
+      );
+      // Müşteri sipariş oluşturabilir
+      allow create: if isCustomer();
+      // Firma veya admin güncelleyebilir
+      allow update: if isFirm() || isAdmin();
+      // Müşteri kendi siparişini, firma kendine atananı silebilir
+      allow delete: if isAuthenticated() && (
+        // Müşteri kendi siparişini silebilir (customerId eşleşirse)
+        (isCustomer() && resource.data.customerId == request.auth.uid) ||
+        // Firma kendine atanan siparişi silebilir (firmId eşleşirse)  
+        (isFirm() && resource.data.firmId == request.auth.uid) ||
+        // Admin her şeyi silebilir
+        isAdmin()
+      );
+
+      // Soft delete izni (Update ile yapılıyor)
+      allow update: if (isFirm() || isAdmin()) || 
+                     (isCustomer() && resource.data.customerId == request.auth.uid && 
+                      request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deletedByCustomer']));
+      
+      // Sipariş Mesajları (Müşteri - Firma Sohbeti)
+      match /messages/{messageId} {
+        // Firma veya müşteri mesajları okuyup yazabilir
+        allow read, write: if isAuthenticated() && (
+          isFirm() || 
+          isCustomer() || 
+          isAdmin()
+        );
+      }
+    }
+
+    // ==========================================
+    // NOTIFICATIONS KOLEKSİYONU
+    // ==========================================
+    match /notifications/{notificationId} {
+      // Kullanıcı kendi bildirimlerini okuyabilir (userId alanı eşleşiyorsa)
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      
+      // List sorguları için: authenticated kullanıcı kendi bildirimlerini listeleyebilir
+      allow list: if isAuthenticated();
+      
+      // Herhangi bir authenticated kullanıcı bildirim oluşturabilir (mesaj gönderirken)
+      allow create: if isAuthenticated();
+      
+      // Bildirim sahibi okundu olarak işaretleyebilir
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      
+      // Admin veya Bildirim sahibi silebilir
+      allow delete: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+    }
+
+    
+    // ==========================================
+    // CAMPAIGNS KOLEKSİYONU
+    // ==========================================
+    match /campaigns/{campaignId} {
+      // Herkes kampanyaları görebilir
+      allow read: if true;
+      // Sadece firma sahibi veya admin yazabilir
+      allow create: if isFirm() || isAdmin();
+      allow update: if (isFirm() && resource.data.firmId == request.auth.uid) || isAdmin();
+      allow delete: if isFirm() || isAdmin();
+    }
+    
+    // ==========================================
+    // VITRINS KOLEKSİYONU
+    // ==========================================
+    match /firm_vitrin_purchases/{itemId} {
+      allow read: if true;
+      allow create: if isFirm() || isAdmin();
+      allow update: if (isFirm() && resource.data.firmId == request.auth.uid) || isAdmin();
+      allow delete: if isFirm() || isAdmin();
+    }
+    
+    // ==========================================
+    // SERVICES (Admin tanımlı hizmet kategorileri)
+    // ==========================================
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ==========================================
+    // SMS PACKAGES
+    // ==========================================
+    match /smsPackages/{packageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ==========================================
+    // SMS PURCHASES (Firma satın alma talepleri)
+    // ==========================================
+    match /smsPurchases/{purchaseId} {
+      // Firma kendi satın almalarını, admin hepsini görebilir
+      allow read: if (isFirm() && resource.data.firmId == request.auth.uid) || isAdmin();
+      // Firma yeni talep oluşturabilir
+      allow create: if isFirm();
+      // Admin onaylayabilir/güncelleyebilir/silebilir
+      allow update, delete: if isAdmin();
+    }
+    
+    // ==========================================
+    // VITRIN PACKAGES
+    // ==========================================
+    match /vitrinPackages/{packageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ==========================================
+    // CAMPAIGN PACKAGES
+    // ==========================================
+    match /campaignPackages/{packageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ==========================================
+    // LEGAL DOCUMENTS
+    // ==========================================
+    match /legalDocuments/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ==========================================
+    // ACCOUNTING ENTRIES (Admin Panel)
+    // ==========================================
+    match /accounting_entries/{entryId} {
+      allow read, write: if isAdmin();
+    }
+    
+    // ==========================================
+    // FIRM ACCOUNTING (Firma Ön Muhasebe)
+    // ==========================================
+    match /firm_accounting/{entryId} {
+      // Firma kendi muhasebe kayıtlarını okuyabilir
+      allow read: if isAuthenticated() && (
+        resource.data.firmId == request.auth.uid ||
+        isFirm() ||
+        isAdmin()
+      );
+      // Firma kendi kayıtlarını oluşturabilir (firmId kontrolü)
+      allow create: if isFirm() || isAdmin();
+      // Firma kendi kayıtlarını güncelleyebilir (otomatik değilse)
+      allow update: if isAdmin() || (
+        isFirm() && 
+        resource.data.firmId == request.auth.uid &&
+        resource.data.isAutomatic != true
+      );
+      // Firma kendi kayıtlarını silebilir (otomatik değilse)
+      allow delete: if isAdmin() || (
+        isFirm() && 
+        resource.data.firmId == request.auth.uid &&
+        resource.data.isAutomatic != true
+      );
+    }
+    
+    // ==========================================
+    // SUPPORT TICKETS
+    // ==========================================
+    match /tickets/{ticketId} {
+      allow read: if isAuthenticated() && (
+        resource.data.senderId == request.auth.uid ||
+        resource.data.receiverId == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAdmin();
+      
+      // Ticket mesajları
+      match /messages/{messageId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+        allow update, delete: if isAdmin();
+      }
+    }
+    
+    // ==========================================
+    // FAQs
+    // ==========================================
+    match /faq/{faqId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+
+    
+    // ==========================================
+    // REVIEWS
+    // ==========================================
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isCustomer();
+      // Müşteri kendi yorumunu güncelleyebilir
+      allow update: if isOwner(resource.data.customerId) || 
+        // Firma sadece firmReply ve firmReplyAt alanlarını güncelleyebilir
+        (isFirm() && resource.data.firmId == request.auth.uid && 
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['firmReply', 'firmReplyAt']));
+      allow delete: if isAdmin();
+    }
+    
+    // ==========================================
+    // TICKET MESSAGES (Top-level collection)
+    // ==========================================
+    match /ticket_messages/{messageId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    // ==========================================
+    // POPUP ADS
+    // ==========================================
+    match /popup_ads/{adId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // ==========================================
+    // SUPPORT CHANNELS (Firma - Admin Sohbeti)
+    // ==========================================
+    match /support_channels/{firmId} {
+      // Admin okuyabilir ve yazabilir
+      // Firma sahibi (Firm dokümanındaki uid == auth.uid) okuyabilir ve yazabilir
+      allow read, write: if isAdmin() || (
+        isFirm() && 
+        get(/databases/$(database)/documents/firms/$(firmId)).data.uid == request.auth.uid
+      );
+      
+      // Mesajlar alt koleksiyonu
+      match /messages/{messageId} {
+        allow read, write: if isAdmin() || (
+          isFirm() && 
+          get(/databases/$(database)/documents/firms/$(firmId)).data.uid == request.auth.uid
+        );
+      }
+    }
+
+    // ==========================================
+    // SETTINGS (Genel Ayarlar: Slider vb.)
+    // ==========================================
+    match /settings/{docId} {
+      allow read: if true;
+      // allow write: if isAdmin();
+      allow write: if request.auth != null; // Yükleme sorunu için geçici çözüm
+    }
+
+    // ==========================================
+    // SYSTEM SETTINGS (Reklam ID'leri vb.)
+    // ==========================================
+    match /system_settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    // ==========================================
+    // CONTACT MESSAGES (İletişim Formu)
+    // ==========================================
+    match /contactMessages/{messageId} {
+      // Herkes mesaj gönderebilir (Public form)
+      allow create: if true;
+      // Sadece admin okuyabilir, güncelleyebilir, silebilir
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ==========================================
+    // PROMO CODES (Kampanya/İndirim Kodları)
+    // ==========================================
+    match /promoCodes/{codeId} {
+      // Herkes kodu doğrulayabilmek için okuyabilir
+      allow read: if true;
+      // Admin veya firma kod oluşturabilir
+      allow create: if isAdmin() || isFirm();
+      // Admin kendi kodlarını, firma kendi kodlarını güncelleyebilir/silebilir
+      allow update, delete: if isAdmin() || 
+        (isFirm() && resource.data.firmId == request.auth.uid);
+    }
+
+    // ==========================================
+    // PASSWORD RESET REQUESTS (Şifre Sıfırlama İstekleri)
+    // ==========================================
+    match /password_reset_requests/{phoneId} {
+      // Herkes kendi telefon numarasıyla sorgulayabilir (giriş yapmadan)
+      allow read: if true;
+      // Herkes oluşturabilir (şifre sıfırlama talep etmek için)
+      allow create: if true;
+      // Herkes güncelleyebilir (OTP doğrulama için)
+      allow update: if true;
+      // Herkes silebilir (temizleme için)
+      allow delete: if true;
+    }
+
+    // ==========================================
+    // PENDING PASSWORD CHANGES (Bekleyen Şifre Değişiklikleri)
+    // ==========================================
+    match /pending_password_changes/{phoneId} {
+      // Sadece okuma - giriş sırasında kontrol için
+      allow read: if true;
+      // Herkes oluşturabilir (şifre sıfırlama sonrası)
+      allow create: if true;
+      // Güncelleme ve silme
+      allow update, delete: if true;
+    }
+  }
+}

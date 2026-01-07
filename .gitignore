@@ -1,0 +1,31 @@
+
+# Large files
+*.rar
+*.zip
+*.7z
+*.tar
+*.gz
+
+# PHP / Composer
+/vendor/
+/node_modules/
+composer.lock
+.env
+.phpunit.result.cache
+
+# Flutter
+/haliyikamaci/build/
+/haliyikamaci/.dart_tool/
+/haliyikamaci/.flutter-plugins
+/haliyikamaci/.flutter-plugins-dependencies
+/haliyikamaci/.pub-cache/
+/haliyikamaci/.pub/
+/haliyikamaci/ios/Flutter/App.framework
+/haliyikamaci/ios/Flutter/Flutter.framework
+/haliyikamaci/ios/Pods/
+/haliyikamaci/.idea/
+/haliyikamaci/*.iml
+
+# System
+.DS_Store
+Thumbs.db

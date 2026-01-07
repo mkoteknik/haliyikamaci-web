@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "782891273844",
+    "project_id": "halisepetimbl",
+    "storage_bucket": "halisepetimbl.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782891273844:android:750619b1bfe1939e52cb21",
+        "android_client_info": {
+          "package_name": "com.hali_yikamaci.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782891273844-godpjau27nv2vlms9bpgik2fj82nrhq5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hali_yikamaci.app",
+            "certificate_hash": "e055c27f75b0bfb0a4882118dbf654d952d41138"
+          }
+        },
+        {
+          "client_id": "782891273844-tobfrtv56cildeb9ondppqgmg8ml6vkf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hali_yikamaci.app",
+            "certificate_hash": "159495774a720e3dff781a7e8caf8e61e9e47fff"
+          }
+        },
+        {
+          "client_id": "782891273844-bte82me5sjupp9cf8cj9aipa6r3crnnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZBzUpPtWHnW3mlF38L7YGpiknMB9dZb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782891273844-bte82me5sjupp9cf8cj9aipa6r3crnnc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782891273844-r394o6r4mbnr570hpqa3l9srqsa3da6c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.halisepetimbl.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,45 @@
+Projeniz MySQL yerine Firebase (Google Cloud) ve JSON/Dosya sistemi kullandığı için taşıma işlemi klasik PHP sitelerinden çok daha basittir. Veritabanı taşımanıza (export/import) gerek yoktur.
+
+Aşağıdaki adımları izleyerek sitenizi hostinge yükleyebilirsiniz:
+
+1. Dosya Yükleme (FTP veya Dosya Yöneticisi)
+Proje klasörünüzdeki gerekli dosyaları hosting'inize (public_html veya www klasörüne) yükleyin.
+
+Yüklemeniz Gerekenler:
+
+admin/
+api/
+assets/
+config/
+customer/
+firm/
+includes/
+payment/
+paytr/
+index.php
+sitemap.xml (varsa)
+Yüklememeniz Gerekenler (Gereksiz/Güvenlik Riski):
+
+haliyikamaci/ (Bu Flutter mobil uygulama kaynak kodudur, sunucuda işi yok)
+haliyikamaci.rar (Yedek dosyası, sunucuda yer kaplar)
+.git/, .vscode/ (Geliştirici dosyaları)
+2. Ayarları Güncelleme (config/app.php)
+Sitenizin yeni alan adını tanıtmanız lazım.
+
+config/app.php dosyasını açın.
+define('SITE_URL', 'http://localhost/haliyikamaci-web'); satırını bulun.
+Bunu yeni alan adınızla değiştirin. Örnek: define('SITE_URL', 'https://www.siteniz.com');
+(Eğer SSL sertifikası aldıysanız https:// yapmayı unutmayın)
+3. Yazma İzinleri (Klasör Yetkileri)
+PHP'nin dosya yükleyebilmesi ve ayarları kaydedebilmesi için bazı klasörlere "Yazma İzni" vermeniz gerekir. Hosting panelinizden (cPanel/Plesk) veya FTP'den şu klasörlere 755 veya 777 izni verin:
+
+assets/img/ (Resim yüklemeleri için)
+config/ (Footer ayarlarını kaydetmek için - özellikle config/footer-settings.json dosyasına yazılabilmeli)
+4. Veritabanı (Firebase)
+Firebase, Google sunucularında çalıştığı için hostinginizde ayrıca bir veritabanı kurmanıza veya ayar yapmanıza gerek yoktur.
+
+Sitenizdeki JavaScript kodları (footer.php vb. içindeki), doğrudan haliyikamaci-946ff projesine bağlanmaya devam edecektir.
+Eğer "Domain Kısıtlaması" (Authorized Domains) eklediyseniz, Firebase Konsol > Authentication > Settings kısmından yeni alan adınızı (
+www.siteniz.com
+) eklemeyi unutmayın.
+Özetle: Dosyaları atın, SITE_URL'i düzeltin ve izinleri verin. Siteniz çalışacaktır.
