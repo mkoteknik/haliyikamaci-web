@@ -65,6 +65,8 @@
     </array>
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-4120305886221516~4172449764</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>NSUserTrackingUsageDescription</key>
     <string>Size özel kampanyalar ve daha alakalı reklamlar gösterebilmek için izin istiyoruz.</string>
 </dict>
