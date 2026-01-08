@@ -69,5 +69,10 @@
     <false/>
     <key>NSUserTrackingUsageDescription</key>
     <string>Size özel kampanyalar ve daha alakalı reklamlar gösterebilmek için izin istiyoruz.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
 </dict>
 </plist>

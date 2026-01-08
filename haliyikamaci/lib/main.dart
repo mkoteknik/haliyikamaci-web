@@ -15,15 +15,21 @@ import 'core/providers/locale_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  
-  // Initialize Push Notifications
-  await NotificationService().initialize();
-  
-  // Initialize Secure Config (Remote Config for API keys)
-  await SecureConfigService().initialize();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    
+    // Initialize Push Notifications
+    await NotificationService().initialize();
+    
+    // Initialize Secure Config (Remote Config for API keys)
+    await SecureConfigService().initialize();
+  } catch (e) {
+    // Log the error but continue app execution
+    // This prevents white screen on iOS if Firebase initialization fails
+    debugPrint('❌ Initialization Error: $e');
+  }
   
   runApp(
     const ProviderScope(
