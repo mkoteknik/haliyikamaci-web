@@ -496,30 +496,43 @@ class _OrderCard extends ConsumerWidget {
               ],
             ),
             // Değerlendir butonu - sadece teslim edilmiş siparişlerde
-            if (order.status == 'delivered')
-              FutureBuilder<bool>(
-                future: ref.read(firmRepositoryProvider).hasCustomerReviewedOrder(order.id),
-                builder: (context, snapshot) {
-                  final hasReviewed = snapshot.data ?? false;
-                  if (hasReviewed) return const SizedBox.shrink();
+            if (order.status == 'delivered') ..[
+              Consumer(
+                builder: (context, ref, _) {
+                  final hasReviewedAsync = ref.watch(hasReviewedOrderProvider(order.id));
                   
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: () => RatingDialog.show(context, order, null),
-                        icon: const Icon(Icons.star, size: 18),
-                        label: const Text('Değerlendir'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.white,
+                  return hasReviewedAsync.when(
+                    data: (hasReviewed) {
+                      if (hasReviewed) return const SizedBox.shrink();
+                      
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () => RatingDialog.show(context, order, null),
+                            icon: const Icon(Icons.star, size: 18),
+                            label: const Text('Değerlendir'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber,
+                              foregroundColor: Colors.white,
+                            ),
+                          ),
                         ),
+                      );
+                    },
+                    loading: () => const Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: SizedBox(
+                        height: 50,
+                        child: Center(child: CircularProgressIndicator()),
                       ),
                     ),
+                    error: (_, __) => const SizedBox.shrink(),
                   );
                 },
               ),
+            ],
           ],
         ),
       ),

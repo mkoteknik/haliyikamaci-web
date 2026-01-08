@@ -810,23 +810,27 @@ class CustomerProfileTab extends ConsumerWidget {
             const SizedBox(height: 12),
             // Content
             Expanded(
-              child: FutureBuilder<LegalDocumentModel?>(
-                future: legalRepo.getDocumentByType('privacy_policy'),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+              child: Consumer(
+                builder: (context, ref, _) {
+                  final docAsync = ref.watch(legalDocumentByTypeProvider('privacy_policy'));
                   
-                  final doc = snapshot.data;
-                  if (doc == null) {
-                    return Center(
+                  return docAsync.when(
+                    data: (doc) {
+                      if (doc == null) {
+                        return Center(
+                          child: Text(l10n.privacyPolicyNotDefined, style: const TextStyle(color: Colors.grey)),
+                        );
+                      }
+                      
+                      return SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(doc.content, style: const TextStyle(fontSize: 14, height: 1.6)),
+                      );
+                    },
+                    loading: () => const Center(child: CircularProgressIndicator()),
+                    error: (_, __) => Center(
                       child: Text(l10n.privacyPolicyNotDefined, style: const TextStyle(color: Colors.grey)),
-                    );
-                  }
-                  
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(doc.content, style: const TextStyle(fontSize: 14, height: 1.6)),
+                    ),
                   );
                 },
               ),

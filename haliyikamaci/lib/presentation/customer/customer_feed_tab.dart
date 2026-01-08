@@ -334,17 +334,30 @@ class CustomerFeedTab extends ConsumerWidget {
 
   // ==================== NEARBY FIRMS LIST WITH CITY-BASED MATCHING ====================
   Widget _buildNearbyFirmsList(BuildContext context, WidgetRef ref, AsyncValue<List<FirmModel>> firmsAsync) {
-    return FutureBuilder<String?>(
-      future: _getUserCity(),
-      builder: (context, citySnapshot) {
-        if (citySnapshot.connectionState == ConnectionState.waiting) {
-          return const SliverToBoxAdapter(
-            child: Padding(padding: EdgeInsets.all(32), child: Center(child: CircularProgressIndicator())),
-          );
-        }
+    final userCityAsync = ref.watch(userCityProvider);
 
-        final userCity = citySnapshot.data;
+    return userCityAsync.when(
+      loading: () => const SliverToBoxAdapter(
+        child: Padding(padding: EdgeInsets.all(32), child: Center(child: CircularProgressIndicator())),
+      ),
+      error: (_, __) => firmsAsync.when(
+        loading: () => const SliverToBoxAdapter(child: Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator()))),
+        error: (e, _) => SliverToBoxAdapter(child: Center(child: Text('Hata: $e'))),
+        data: (firms) {
+          final displayFirms = firms.take(10).toList();
+          if (displayFirms.isEmpty) {
+            return const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(32),
+                child: Center(child: Text('Yakında firma bulunamadı.', style: TextStyle(color: Colors.grey))),
+              ),
+            );
+          }
 
+          return _buildFirmsList(displayFirms);
+        },
+      ),
+      data: (userCity) {
         return firmsAsync.when(
           loading: () => const SliverToBoxAdapter(child: Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator()))),
           error: (e, _) => SliverToBoxAdapter(child: Center(child: Text('Hata: $e'))),
@@ -365,31 +378,35 @@ class CustomerFeedTab extends ConsumerWidget {
               );
             }
 
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final firm = displayFirms[index];
-                  return Consumer(
-                    builder: (context, ref, _) {
-                      final favorites = ref.watch(localFavoritesProvider);
-                      final isFavorite = favorites.contains(firm.id);
-                      
-                      return FirmCardMini(
-                        firm: firm,
-                        index: index,
-                        isFavorite: isFavorite,
-                        onFavorite: () => ref.read(localFavoritesProvider.notifier).toggleFavorite(firm.id),
-                        onTap: () => _showFirmDetail(context, firm),
-                      );
-                    }
-                  );
-                },
-                childCount: displayFirms.length,
-              ),
-            );
+            return _buildFirmsList(displayFirms);
           },
         );
       },
+    );
+  }
+
+  Widget _buildFirmsList(List<FirmModel> firms) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final firm = firms[index];
+          return Consumer(
+            builder: (context, ref, _) {
+              final favorites = ref.watch(localFavoritesProvider);
+              final isFavorite = favorites.contains(firm.id);
+              
+              return FirmCardMini(
+                firm: firm,
+                index: index,
+                isFavorite: isFavorite,
+                onFavorite: () => ref.read(localFavoritesProvider.notifier).toggleFavorite(firm.id),
+                onTap: () => _showFirmDetail(context, firm),
+              );
+            },
+          );
+        },
+        childCount: firms.length,
+      ),
     );
   }
 

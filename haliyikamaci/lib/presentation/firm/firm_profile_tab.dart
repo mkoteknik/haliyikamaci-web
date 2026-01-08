@@ -877,30 +877,34 @@ class FirmProfileTab extends ConsumerWidget {
             const SizedBox(height: 12),
             // Content
             Expanded(
-              child: FutureBuilder<LegalDocumentModel?>(
-                future: legalRepo.getDocumentByType(LegalDocumentModel.typeUsageGuide),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+              child: Consumer(
+                builder: (context, ref, _) {
+                  final docAsync = ref.watch(legalDocumentByTypeProvider(LegalDocumentModel.typeUsageGuide));
                   
-                  final doc = snapshot.data;
-                  if (doc == null) {
-                    return const Center(
-                      child: Text('Kullanım kılavuzu henüz hazırlanmamış.', style: TextStyle(color: Colors.grey)),
-                    );
-                  }
-                  
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Html(
-                      data: doc.content,
-                      style: {
-                        "body": Style(
-                          fontSize: FontSize(14),
-                          lineHeight: LineHeight(1.6),
+                  return docAsync.when(
+                    data: (doc) {
+                      if (doc == null) {
+                        return const Center(
+                          child: Text('Kullanım kılavuzu henüz hazırlanmamış.', style: TextStyle(color: Colors.grey)),
+                        );
+                      }
+                      
+                      return SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Html(
+                          data: doc.content,
+                          style: {
+                            "body": Style(
+                              fontSize: FontSize(14),
+                              lineHeight: LineHeight(1.6),
+                            ),
+                          },
                         ),
-                      },
+                      );
+                    },
+                    loading: () => const Center(child: CircularProgressIndicator()),
+                    error: (_, __) => const Center(
+                      child: Text('Kullanım kılavuzu yüklenemedi.', style: TextStyle(color: Colors.grey)),
                     ),
                   );
                 },

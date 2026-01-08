@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 import '../models/models.dart';
 import '../repositories/repositories.dart';
@@ -263,6 +265,45 @@ final localFavoritesProvider = StateNotifierProvider<LocalFavoritesNotifier, Set
   });
   
   return notifier;
+});
+
+/// Has Reviewed Order Provider - Check if customer has reviewed a specific order
+/// Uses cache to prevent repeated Firestore queries on every widget rebuild
+final hasReviewedOrderProvider = FutureProvider.family<bool, String>((ref, orderId) async {
+  final firmRepo = ref.watch(firmRepositoryProvider);
+  return await firmRepo.hasCustomerReviewedOrder(orderId);
+});
+
+/// Legal Document By Type Provider - Cache legal documents by type
+/// Prevents modal opening delay by fetching documents once and caching
+final legalDocumentByTypeProvider = FutureProvider.family<LegalDocumentModel?, String>((ref, type) async {
+  final repo = ref.watch(legalDocumentsRepositoryProvider);
+  return await repo.getDocumentByType(type);
+});
+
+/// User City Provider - Get user's city from GPS once and cache
+/// Prevents battery drain from repeated GPS queries on scroll
+final userCityProvider = FutureProvider<String?>((ref) async {
+  try {
+    final permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      final requested = await Geolocator.requestPermission();
+      if (requested == LocationPermission.denied || requested == LocationPermission.deniedForever) {
+        return null;
+      }
+    }
+
+    final position = await Geolocator.getCurrentPosition(
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.low),
+    ).timeout(const Duration(seconds: 5));
+
+    final placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    if (placemarks.isEmpty) return null;
+    return placemarks.first.administrativeArea;
+  } catch (e) {
+    debugPrint('Error getting user city: $e');
+    return null;
+  }
 });
 
 class LocalFavoritesNotifier extends StateNotifier<Set<String>> {
