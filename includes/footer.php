@@ -140,15 +140,15 @@ $contactAddress = $fSettings['contact']['address'] ?? 'İstanbul, Türkiye';
                 -->
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo SITE_URL; ?>/privacy.php"
+                        <a href="<?php echo SITE_URL; ?>/yasal/gizlilik-politikasi"
                             class="text-light small text-decoration-none">Gizlilik Politikası</a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="<?php echo SITE_URL; ?>/terms.php"
+                        <a href="<?php echo SITE_URL; ?>/yasal/kullanici-sozlesmesi"
                             class="text-light small text-decoration-none">Kullanım Şartları</a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="<?php echo SITE_URL; ?>/kvkk.php"
+                        <a href="<?php echo SITE_URL; ?>/yasal/kvkk"
                             class="text-light small text-decoration-none">KVKK</a>
                     </li>
                 </ul>

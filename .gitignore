@@ -29,3 +29,12 @@ composer.lock
 # System
 .DS_Store
 Thumbs.db
+
+# Secrets & Configs
+config/halisepetimbl-firebase-adminsdk-fbsvc-cc0fd03f3b.json
+*.p12
+*.jks
+*.keystore
+*.key
+SECRETS.txt
+SECRETS_V2.txt
