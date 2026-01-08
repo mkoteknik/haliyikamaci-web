@@ -61,7 +61,8 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen>
           return Scaffold(
             body: _buildBody(),
             extendBody: true,
-            bottomNavigationBar: SizedBox(
+            bottomNavigationBar: SafeArea(
+            child: SizedBox(
               height: 100, // Extra height to accommodate floating button
               child: Stack(
                 clipBehavior: Clip.none,
@@ -82,6 +83,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen>
                 ],
               ),
             ),
+          ),
           );
         },
       ),
