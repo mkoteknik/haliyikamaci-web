@@ -496,7 +496,7 @@ class _OrderCard extends ConsumerWidget {
               ],
             ),
             // Değerlendir butonu - sadece teslim edilmiş siparişlerde
-            if (order.status == 'delivered') ..[
+            if (order.status == 'delivered') ...[
               Consumer(
                 builder: (context, ref, _) {
                   final hasReviewedAsync = ref.watch(hasReviewedOrderProvider(order.id));
