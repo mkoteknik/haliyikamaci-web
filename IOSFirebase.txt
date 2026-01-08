@@ -1,0 +1,4 @@
+Name:Firebase Push
+Key ID:UJ59WM3VPF
+Services:Apple Push Notifications service (APNs)
+Team Id: 5LXB74Q366
