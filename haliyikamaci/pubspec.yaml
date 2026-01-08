@@ -1,7 +1,7 @@
 name: app
 description: "Halı Yıkamacı - Firma Rehberi"
 publish_to: 'none'
-version: 1.0.3+31
+version: 1.0.3+92
 
 environment:
   sdk: ^3.0.0
