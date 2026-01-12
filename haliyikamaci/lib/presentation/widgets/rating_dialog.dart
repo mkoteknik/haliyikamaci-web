@@ -53,6 +53,7 @@ class _RatingDialogState extends ConsumerState<RatingDialog> {
 
       // Check for profanity
       if (comment.isNotEmpty && profanityHelper.hasProfanity(comment)) {
+        setState(() => _isSubmitting = false); // Reset flag
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
