@@ -72,10 +72,18 @@ try {
         throw new Exception('Token expired', 401);
     }
 
+    // Generate Custom Token (Backend -> Frontend Auth)
+    require_once '../includes/firebase-jwt.php';
+    $serviceAccountPath = __DIR__ . '/../config/halisepetimbl-firebase-adminsdk-fbsvc-cc0fd03f3b.json';
+
+    $tokenGenerator = new FirebaseTokenGenerator($serviceAccountPath);
+    $customToken = $tokenGenerator->createCustomToken($data['uid']);
+
     // Success
     echo json_encode([
         'status' => 'success',
         'uid' => $data['uid'],
+        'custom_token' => $customToken, // New field for Firebase Auth
         'package_id' => $data['package_id'] ?? null
     ]);
 

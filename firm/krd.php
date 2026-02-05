@@ -270,7 +270,7 @@ $pageTitle = 'KRD Yönetimi';
                 });
                 const data = await res.json();
                 if (data.status === 'success' && data.uid) {
-                    return data.uid;
+                    return data; // Return full object to get custom_token
                 }
             } catch (e) {
                 console.error('Token validation error:', e);
@@ -296,12 +296,23 @@ $pageTitle = 'KRD Yönetimi';
             loadPackages();
         }
 
+        import { signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+
         // If mobile token exists, validate and load directly
         if (mobileToken) {
             (async () => {
-                const uid = await validateMobileToken(mobileToken);
-                if (uid) {
-                    const firm = await loadFirmByUid(uid);
+                const tokenData = await validateMobileToken(mobileToken);
+                if (tokenData && tokenData.uid) {
+ // 1. Sign in with Custom Token if available
+                    if (tokenData.custom_token) {
+                        try {
+                            await signInWithCustomToken(auth, tokenData.custom_token);
+                        } catch (authErr) {
+                            console.error('Custom token auth failed:', authErr);
+                        }
+                    }
+
+                    const firm = await loadFirmByUid(tokenData.uid);
                     if (firm) {
                         await initPage(firm);
                         return;

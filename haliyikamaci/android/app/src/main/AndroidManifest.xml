@@ -47,7 +47,7 @@
         <!-- Google AdMob App ID (Required for SDK Initialization) -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7843501870103872~2169874477"/>
+            android:value="ca-app-pub-3511451758407520~1498373637"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

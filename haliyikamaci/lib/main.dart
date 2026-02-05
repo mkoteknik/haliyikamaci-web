@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
@@ -31,6 +32,18 @@ void main() async {
     debugPrint('❌ Initialization Error: $e');
   }
   
+  // Request App Tracking Transparency permission (iOS)
+  // We do this after initialization to ensure the app is ready to show the dialog
+  // A small delay helps avoiding conflicts with splash screen
+  Future.delayed(const Duration(seconds: 1), () async {
+    try {
+      final status = await AppTrackingTransparency.requestTrackingAuthorization();
+      debugPrint('📊 ATT Status: $status');
+    } catch (e) {
+      debugPrint('❌ ATT Error: $e');
+    }
+  });
+
   runApp(
     const ProviderScope(
       child: HaliYikamaciApp(),

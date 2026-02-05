@@ -117,6 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                              TextField(
                                controller: _phoneController,
                                keyboardType: TextInputType.phone,
+                               textInputAction: TextInputAction.next, // iOS UX: İleri
                                decoration: InputDecoration(
                                  labelText: l10n.phoneNumber,
                                  prefixIcon: const Icon(Icons.phone),
@@ -131,6 +132,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                              TextField(
                                controller: _passwordController,
                                obscureText: _obscurePassword,
+                               textInputAction: TextInputAction.done, // iOS UX: Tamam
+                               onSubmitted: (_) => _handleLogin(), // Klavyeden enter ile giriş
                                decoration: InputDecoration(
                                  labelText: l10n.password,
                                  prefixIcon: const Icon(Icons.lock),
